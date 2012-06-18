@@ -5,12 +5,12 @@ jQuery(function($) {
   var app = builder.app;
 
   // define all the possible modules
-  var Blank = builder.module("blank");
+  var Magister = builder.module("magister");
 
   // Defining the application router
   builder.Router = Backbone.Router.extend({
     routes: {
-      "*splat":"loadMagister"
+      "*splat":"loadBlank"
     },
 
     // setting the templateCache

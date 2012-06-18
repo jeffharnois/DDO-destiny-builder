@@ -30,16 +30,18 @@ module.exports = function(grunt) {
       // Application files
       "dist/builder/debug/js/app.js": [
         "dist/builder/debug/js/templates.js",
+        "dist/builder/debug/js/model.js",
         "src/builder/namespace.js",
         "src/builder/modules/**/*.js",
-        "src/builder/repstream.app.js"
+        "src/builder/builder.app.js"
       ]
       
     },
     
     tpl: {
       // output : source
-      "dist/builder/debug/js/templates.js": ["src/builder/templates/**/*.mustache"]
+      "dist/builder/debug/js/templates.js": ["src/builder/templates/**/*.mustache"],
+      "dist/builder/debug/js/model.js":["externals/destinies/*.js"]
     },
 
     min: {
@@ -56,7 +58,6 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-clean');
-  grunt.loadNpmTasks('grunt-hooks');
   grunt.loadNpmTasks('grunt-tpl');
 
   grunt.registerTask('default', 'tpl concat min');
