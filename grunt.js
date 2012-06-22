@@ -60,6 +60,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-clean');
   grunt.loadNpmTasks('grunt-tpl');
 
-  grunt.registerTask('default', 'tpl concat min');
+  grunt.registerTask('default', 'clean tpl concat min');
 
 };

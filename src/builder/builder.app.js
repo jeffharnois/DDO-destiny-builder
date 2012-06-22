@@ -5,34 +5,51 @@ jQuery(function($) {
   var app = builder.app;
 
   // define all the possible modules
-  var Magister = builder.module("magister");
+  var Tree = builder.module("tree"),
+      Map = builder.module("map");// ,
+  //       Draconic_Incarnation = builder.module("draconic_incarnation"),
+  //       Exalted_Angel = builder.module("exalted_angel"),
+  //       Fatesinger = builder.module("fatesinger"),
+  //       Fury_of_the_Wild = builder.module("fury_of_the_wild"),
+  //       Grandmaster_of_Flowers = builder.module("grandmaster_of_flowers"),
+  //       Legendary_Dreadnought = builder.module("legendary_dreadnought"),
+  //       Magister = builder.module("magister"),
+  //       Shadowdancer = builder.module("shadowdancer"),
+  //       Shiradi_Champion = builder.module("shiradi_champion"),
+  //       Unyielding_Sentinel = builder.module("unyielding_sentinel");
 
   // Defining the application router
   builder.Router = Backbone.Router.extend({
     routes: {
-      "*splat":"loadBlank"
+      "*splat":"loadMap"
     },
-
-    // setting the templateCache
-    templateCache: {},
-
-    // entity id of the current active entity
-    eid: null,
-    memberships: {},
 
     initialize: function() {
-      
-      // set up the conf and eid that were pulled from the php
-      var self = this;
-      
-      // rooster
-      this.magister = new Magister.Router();
+      this.tree         = new Tree.Router();
+      this.map          = new Map.Router();
+      // this.draconic     = new Draconic_Incarnation.Router();
+      // this.angel        = new Exalted_Angel.Router();
+      // this.fatesinger   = new Fatesinger.Router();
+      // this.fury         = new Fury_of_the_Wild.Router();
+      // this.grandmaster  = new Grandmaster_of_Flowers.Router();
+      // this.dread        = new Legendary_Dreadnought.Router();
+      // this.magister     = new Magister.Router();
+      // this.shadowdancer = new Shadowdancer.Router();
+      // this.shiradi      = new Shiradi_Champion.Router();
+      // this.sentinel     = new Unyielding_Sentinel.Router();
     },
 
-    loadBlank: function(splat) {
+    loadTree: function(splat) {
       var self = this;
 
-      self.magister.defaultFunction();
+      self.tree.loadTree();
+      // self.fury.defaultFunction();
+    },
+    
+    loadMap: function(splat) {
+      var self = this;
+
+      self.map.loadMap();
     }
   });
 

@@ -1,0 +1,42 @@
+$border-color: #dddddd
+body
+  background: black
+  
+.gridrow
+  +clearfix()
+  .griditem
+    float: left
+    margin: 20px
+    width: 33px
+    height: 34px
+    position: relative
+  .passive:before,
+  .passive:after,  
+  .inner-passive:before,
+  .inner-passive:after
+    content: ''
+    background: #333333
+    width: 18px
+    height: 38px
+    position: absolute
+    top: 0
+    left: 0
+    border-left: 0 none
+    border-right: 0 none
+    background: #333333
+    border-top: 2px $border-color solid
+    border-bottom: 2px $border-color solid
+  .passive:before
+    +transform(rotate(90deg))
+  .inner-passive:before
+    +transform(rotate(45deg))
+  .inner-passive:after
+    +transform(rotate(135deg))
+  .active
+    position: absolute
+    top: 0
+    left: 0
+    background: #333333
+    border: 2px $border-color solid
+    width: 33px
+    height: 37px

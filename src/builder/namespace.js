@@ -35,6 +35,8 @@ this.builder = {
         } else {
           partial = {partial: Hogan.compile(Templates[info.partial])};
         }
+        console.log(info);
+        console.log(partial);
         return h.render(info,partial);
       } else {
         return h.render(info);

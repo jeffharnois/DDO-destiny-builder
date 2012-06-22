@@ -1,7 +1,7 @@
 # Require any additional compass plugins here.
 
 # Set this to the root of your project when deployed:
-http_path = "/"
+http_path = "/assets/"
 # sass source
 sass_dir = "src"
 # home for all generated content
