@@ -2,14 +2,87 @@ $border-color: #dddddd
 body
   background: black
   
+.tree
+  width: 799px
+  height: 665px
+  position: relative
+  margin: 0 auto
+  header
+    color: gold
+    font-size: 18px
+  article
+    header
+      width: 100%
+      height: 60px
+
+aside,
+article
+  float: left
+  
+aside
+  width: 227px
+  height: 616px
+  margin: 0 11px 0 6px
+  ul
+    border: 1px #716664 solid
+    margin-top: 9px
+    height: 616px
+    a
+      color: #b6b197
+      text-decoration: none
+    .draconic_incarnation
+      +box-shadow(inset 0 0 28px rgba(189, 10, 10, 0.5))
+    .exalted_angel
+      +box-shadow(inset 0 0 28px rgba(255, 234, 0, 0.35))
+    .fatesinger
+      +box-shadow(inset 0 0 28px rgba(189, 10, 10, 0.5))
+    .fury_of_the_wild
+      +box-shadow(inset 0 0 28px rgba(40, 160, 43, 0.35))
+    .grandmaster_of_flowers
+      +box-shadow(inset 0 0 28px rgba(0, 0, 255, 0.4))
+    .legendary_dreadnought
+      +box-shadow(inset 0 0 28px rgba(0, 0, 255, 0.4))
+    .magister
+      +box-shadow(inset 0 0 28px rgba(189, 10, 10, 0.5))
+    .shadowdancer
+      +box-shadow(inset 0 0 28px rgba(0, 0, 255, 0.4))
+    .shiradi_champion
+      +box-shadow(inset 0 0 28px rgba(40, 160, 43, 0.35))
+    .unyielding_sentinel
+      +box-shadow(inset 0 0 28px rgba(255, 234, 0, 0.35))
+    li
+      height: 17px
+      margin: 7px 5px 11px 40px
+      padding: 8px 0 12px 18px
+      position: relative
+      div
+        height: 48px
+        width: 48px
+        +transform(scale(0.8))
+        position: absolute
+        top: -11px
+        left: -46px
+        +border-radius(30px)
+        border: 6px black solid
+
+.grid
+  margin-top: 17px
+  border: 1px #716664 solid
+  padding-top: 10px
+  height: 513px
+  
 .gridrow
   +clearfix()
   .griditem
     float: left
-    margin: 20px
-    width: 33px
-    height: 34px
+    width: 50px
+    height: 71px
+    margin-right: 10px
     position: relative
+    &:first-child
+      margin-left: 10px
+    &:last-child
+      margin-right: 0
   .passive:before,
   .passive:after,  
   .inner-passive:before,
@@ -20,7 +93,7 @@ body
     height: 38px
     position: absolute
     top: 0
-    left: 0
+    left: 10px
     border-left: 0 none
     border-right: 0 none
     background: #333333

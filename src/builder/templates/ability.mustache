@@ -1,3 +1,4 @@
-<a title="{{abil_name}} {{abil.1}}"><div {{#passive}}class="{{passive}}"> <div class="inner-passive"{{/passive}}{{^passive}} class="active"{{/passive}}>{{#passive}}</div>{{/passive}}</div></a>
-
-
+<a data-toggle="tooltip" data-content="{{> tooltip}}" data-postion="right">
+  {{#passive}}<div class="passive"> <div class="inner-passive"></div></div>{{/passive}}
+  {{^passive}}<div class="active"></div>{{/passive}}
+</a>
