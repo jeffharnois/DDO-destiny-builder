@@ -28,7 +28,7 @@
         }
       });
       this.currentRequest = new Tree.Views.Test();
-      this.currentRequest.render({collection: collection, model: $.parseJSON(window.model[path])});
+      this.currentRequest.render({collection: collection, model: $.parseJSON(window.model[path]), path: path});
     }
   });
 
@@ -49,9 +49,13 @@
     render: function(options) {
       var self = this,
           collection = options.collection,
-          model = options.model;
+          model = options.model,
+          path = options.path;
       // append the hogan template to the ID
       $(this.el).html(builder.fetchAndRender('embed',{partial: [this.templateName, 'class', 'ability', 'tooltip'], collection: collection, model: model}));
+      
+      $("aside").find("li").removeClass("active");
+      $("aside").find("."+path).addClass("active");
 
       return this;
     }

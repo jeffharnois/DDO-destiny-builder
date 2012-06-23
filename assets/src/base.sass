@@ -1,8 +1,31 @@
+
 @import "compass"
 @import "compass/reset"
 @import "compass/css3"
 // default variables
 @import "variables"
+
+// base styles
+body
+  background: black
+  font-family: 'Merriweather', serif
+  font-weight: 400
+  
+li,
+a,
+p
+  font-weight: 300
+  font-size: 12px
+  
+h1, h2, h3
+  font-weight: 400
+h4, h5, h6
+  font-weight: 700
+
+.module
+  width: 800px
+  margin: 20px auto
+
 // tree
 @import "tree"
 // map
@@ -12,6 +35,4 @@
 @import "sprites/destinies/*.png"
 +all-destinies-sprites
 
-.module
-  width: 800px
-  margin: 20px auto
+
