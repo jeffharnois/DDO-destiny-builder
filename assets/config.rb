@@ -4,16 +4,20 @@
 http_path = "/assets/"
 # sass source
 sass_dir = "src"
+# home for http paths
+paths = "generated/"
 # home for all generated content
-assets = "generated/"
+assets = "../public" + http_path + paths
 # generated css
 css_dir = assets+"css"
 # originals
 images_dir = "img"
+# web path
+http_images_path = http_path + images_dir
 # generated sprites
 generated_images_dir = assets + images_dir
 generated_images_path = generated_images_dir
-http_generated_images_path = http_path + generated_images_dir
+http_generated_images_path = http_path + paths + images_dir
 
 # original libraries, plugins, etc.
 # will be built to assets or to specific repo

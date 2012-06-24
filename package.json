@@ -4,7 +4,8 @@
   "dependencies": {
     "grunt": "~0.3.9",
     "grunt-clean": "git+ssh://git@github.com:reputation/grunt-clean.git",
-    "grunt-tpl": "git+ssh://git@github.com:reputation/grunt-tpl.git"
+    "grunt-tpl": "git+ssh://git@github.com:reputation/grunt-tpl.git",
+    "express": "~2.5.9"
   },
   "private": true
 }

@@ -13,13 +13,13 @@ module.exports = function(grunt) {
     },
 
     clean: {
-      folder: "dist/builder/"
+      folder: "public/dist/builder/"
     },
 
     concat: {
 
       // Library files
-      "assets/generated/js/libs.js": [
+      "public/assets/generated/js/libs.js": [
           "assets/js/libs/jquery/jquery-1.7.1.min.js",
           "assets/js/libs/underscore/underscore.js",
           "assets/js/libs/backbone/backbone.js",
@@ -28,9 +28,9 @@ module.exports = function(grunt) {
           "assets/js/plugins/**/*.js"
       ],
       // Application files
-      "dist/builder/debug/js/app.js": [
-        "dist/builder/debug/js/templates.js",
-        "dist/builder/debug/js/model.js",
+      "public/dist/builder/debug/js/app.js": [
+        "public/dist/builder/debug/js/templates.js",
+        "public/dist/builder/debug/js/model.js",
         "src/builder/namespace.js",
         "src/builder/modules/**/*.js",
         "src/builder/builder.app.js"
@@ -40,14 +40,14 @@ module.exports = function(grunt) {
     
     tpl: {
       // output : source
-      "dist/builder/debug/js/templates.js": ["src/builder/templates/**/*.mustache"],
-      "dist/builder/debug/js/model.js":["externals/destinies/*.js"]
+      "public/dist/builder/debug/js/templates.js": ["src/builder/templates/**/*.mustache"],
+      "public/dist/builder/debug/js/model.js":["externals/destinies/*.js"]
     },
 
     min: {
-      "assets/generated/js/libs.js": ["assets/generated/js/libs.js"],
-      "dist/builder/release/js/app.js": ["dist/builder/debug/js/app.js"],
-      "dist/builder/release/js/templates.js": ["dist/builder/debug/js/templates.js"]
+      "public/assets/generated/js/libs.js": ["public/assets/generated/js/libs.js"],
+      "public/dist/builder/release/js/app.js": ["public/dist/builder/debug/js/app.js"],
+      "public/dist/builder/release/js/templates.js": ["public/dist/builder/debug/js/templates.js"]
     },
 
     watch: {
