@@ -95,6 +95,7 @@ h4, h5, h6 {
 /* line 30, ../../../../assets/src/base.sass */
 .module {
   width: 800px;
+  min-height: 610px;
   margin: 20px auto;
 }
 
@@ -592,6 +593,22 @@ button[disabled="disabled"] {
 .tooltip h4 {
   text-align: center;
   margin-bottom: 10px;
+}
+
+/* line 1, ../../../../assets/src/_footer.sass */
+footer {
+  text-align: center;
+  color: #b6b197;
+  margin-bottom: 20px;
+}
+/* line 5, ../../../../assets/src/_footer.sass */
+footer a {
+  color: #b6b197;
+  text-decoration: none;
+}
+/* line 8, ../../../../assets/src/_footer.sass */
+footer a:hover {
+  text-decoration: underline;
 }
 
 /* line 114, sprites/destinies/*.png */

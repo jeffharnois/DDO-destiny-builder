@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "dependencies": {
     "grunt": "~0.3.9",
-    "grunt-clean": "git+ssh://git@github.com:reputation/grunt-clean.git",
-    "grunt-tpl": "git+ssh://git@github.com:reputation/grunt-tpl.git",
+    "grunt-clean": "~0.3.0",
+    "grunt-tpl": "~0.2.2",
     "express": "~2.5.9"
   },
   "private": true
