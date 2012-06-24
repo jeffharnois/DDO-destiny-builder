@@ -6,6 +6,7 @@
 @import "variables"
 
 // base styles
+$gold-color: #b6b197
 body
   background: black
   font-family: 'Merriweather', serif
@@ -13,14 +14,18 @@ body
   
 li,
 a,
-p
+p,
+button
+  font-family: 'Merriweather', serif
   font-weight: 300
   font-size: 12px
   
 h1, h2, h3
   font-weight: 400
+  color: $gold-color
 h4, h5, h6
   font-weight: 700
+  color: $gold-color
 
 .module
   width: 800px
@@ -30,9 +35,8 @@ h4, h5, h6
 @import "tree"
 // map
 @import "map"
+@import "tooltip"
 
 // destiny logos
 @import "sprites/destinies/*.png"
 +all-destinies-sprites
-
-

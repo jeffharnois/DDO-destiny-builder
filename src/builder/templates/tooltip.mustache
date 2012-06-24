@@ -1,4 +1,1 @@
-<div>
-  <h4>{{abil_name}}</h4>
-  {{#multi}}{{#abil.1}}{{1}} {{2}}{{/abil.1}}{{/multi}}{{^multi}}{{#abil}}{{abil}}{{/abil}}{{/multi}}
-<div>
+<a data-toggle="tooltip" title="<div> <h4> {{abil_name}} <small>({{required}} points required)</small></h4> <p>{{#multi}}Choose one: <br />{{#abil.1}}{{#1}}{{1}}<br /><br />{{/1}}{{#2}}{{2}}<br /><br />{{/2}}{{#3}}{{3}}<br /><br />{{/3}}{{#4}}{{4}}<br /><br />{{/4}}{{#5}}{{5}}<br /><br />{{/5}}{{#6}}{{6}}<br /><br />{{/6}}{{#7}}{{7}}<br /><br />{{/7}}{{#8}}{{8}}<br /><br />{{/8}}{{/abil.1}}{{/multi}} {{^multi}}{{#abil}}{{{abil.1}}}{{/abil}}{{/multi}}</p> </div>" data-ranks="{{ranks}}" data-required="{{required}}" data-postion="right" user-selected="0" data-points="{{AP}}" {{#prereq}}data-req="{{req}}" data-req-tier="{{tier}}"{{/prereq}}><div class="toggleTooltip"></div></a>
