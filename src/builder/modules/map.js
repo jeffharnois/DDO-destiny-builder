@@ -27,6 +27,8 @@
       // append the hogan template to the ID
       $(this.el).html(builder.fetchAndRender('embed',{partial: [this.templateName, "footer"]}));
 
+      _gaq.push(['_trackPageview', 'Map']);
+
       return this;
     }
   });

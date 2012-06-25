@@ -193,6 +193,8 @@
           self.subtracted(e);
           return false;
       });
+      
+      _gaq.push(['_trackPageview', path]);
 
       return this;
     }
