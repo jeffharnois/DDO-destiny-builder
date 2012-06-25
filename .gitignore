@@ -1,0 +1,3 @@
+public/assets/generated/*
+public/dist/*
+node_modules/*
