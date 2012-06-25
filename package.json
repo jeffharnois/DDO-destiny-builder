@@ -5,7 +5,8 @@
     "grunt": "~0.3.9",
     "grunt-clean": "~0.3.0",
     "grunt-tpl": "~0.2.2",
-    "express": "~2.5.9"
+    "express": "~2.5.9",
+    "forever": "~0.9.2"
   },
   "private": true
 }
