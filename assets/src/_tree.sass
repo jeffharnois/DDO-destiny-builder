@@ -124,8 +124,8 @@ aside
       margin-left: 10px
     &:last-child
       margin-right: 10px
-  .passive:before,
-  .passive:after,  
+  a + div.passive:before,
+  a + div.passive:after,  
   .inner-passive:before,
   .inner-passive:after
     content: ''
@@ -140,7 +140,7 @@ aside
     background: #333333
     border-top: 2px $border-color solid
     border-bottom: 2px $border-color solid
-  .passive:before
+  a + div.passive:before
     +transform(rotate(90deg))
     border-color: #aaaaaa
   .inner-passive:before
@@ -149,6 +149,21 @@ aside
   .inner-passive:after
     +transform(rotate(135deg))
     border-color: #999999
+  .icon
+    position: absolute
+    z-index: 1
+    background-repeat: no-repeat
+    height: 38px
+    width: 38px
+    top: 0
+    left: 0
+    +transform(scale(0.95, 1.05))
+    &.passive
+      +transform(scale(1.05))
+      height: 38px
+      width: 38px
+      top: 0
+      left: -1px
   .active
     position: absolute
     top: 0
@@ -188,3 +203,7 @@ button
   position: relative
   z-index: 10
   padding-right: 5px
+  
+// destiny logos
+@import "sprites/shadowdancer/*.png"
++all-shadowdancer-sprites
