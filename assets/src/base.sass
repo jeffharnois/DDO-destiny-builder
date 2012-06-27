@@ -5,8 +5,6 @@
 // default variables
 @import "variables"
 
-// base styles
-$gold-color: #b6b197
 body
   background: black
   font-family: 'Merriweather', serif
@@ -28,9 +26,13 @@ h4, h5, h6
   color: $gold-color
 
 .module
-  width: 800px
+  width: 805px
   min-height: 610px
   margin: 20px auto
+  +clearfix()
+
+article
+  border: 3px #b8aa7b solid
 
 // tree
 @import "tree"
@@ -38,6 +40,7 @@ h4, h5, h6
 @import "map"
 @import "tooltip"
 @import "footer"
+@import "header"
 
 // destiny logos
 @import "sprites/destinies/*.png"

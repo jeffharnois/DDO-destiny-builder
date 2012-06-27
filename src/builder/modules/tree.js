@@ -181,7 +181,7 @@
       self.currentPath = path;
       self.currentModel = model;
       // append the hogan template to the ID
-      $(this.el).html(builder.fetchAndRender('embed',{partial: [this.templateName, 'class', 'ability', 'tooltip', 'footer'], collection: collection, model: model}));
+      $(this.el).html(builder.fetchAndRender('embed',{partial: [this.templateName, 'class', 'ability', 'tooltip', 'footer', 'header'], collection: collection, model: model, options: {tree: "tree"}}));
       
       $("aside").find("li").removeClass("active");
       $("aside").find("."+path).addClass("active");

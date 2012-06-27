@@ -1,25 +1,27 @@
-$border-color: #dddddd
-
 .tree
   width: 799px
   height: 665px
   position: relative
-  margin: 60px auto 0
-  header
-    color: $gold-color
-    font-size: 18px
-    div
-      width: 48px
-      height: 48px
-    div,
-    h1
-      float: left
-    h1
-      margin: 2px 0 0 5px
+  margin: 0 auto
   article
-    header
+    hgroup
       width: 100%
       height: 60px
+  .skills
+    float: left
+    .header
+      +clearfix()
+      margin-top: 20px
+      color: $gold-color
+      font-size: 18px
+      div
+        width: 48px
+        height: 48px
+      div,
+      h1
+        float: left
+      h1
+        margin: 2px 0 0 5px
 
 aside,
 article
@@ -28,7 +30,7 @@ article
 aside
   width: 227px
   height: 616px
-  margin: 0 11px 0 6px
+  margin: 20px 11px 0 16px
   ul
     border: 1px #716664 solid
     margin-top: 9px
@@ -64,7 +66,7 @@ aside
         +box-shadow(inset 0 0 6px #62915b)
     li
       height: 17px
-      margin: 7px 10px 11px 40px
+      margin: 7px 10px 11px 41px
       padding: 13px 0 8px 18px
       position: relative
       div
@@ -203,7 +205,3 @@ button
   position: relative
   z-index: 10
   padding-right: 5px
-  
-// destiny logos
-@import "sprites/shadowdancer/*.png"
-+all-shadowdancer-sprites
