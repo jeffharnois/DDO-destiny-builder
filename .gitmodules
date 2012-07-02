@@ -1,3 +1,6 @@
 [submodule "externals"]
 	path = externals
 	url = https://github.com/jeffharnois/epic-Destiny-Obj.git
+[submodule "assets/img/sprites"]
+	path = assets/img/sprites
+	url = https://github.com/jeffharnois/ddo-destiny-images.git
