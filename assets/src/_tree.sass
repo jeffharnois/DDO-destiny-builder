@@ -121,6 +121,7 @@ aside
     position: relative
     text-align: center
     color: $gold-color
+    background: transparent
     font-size: 9px
     &:first-child
       margin-left: 10px
@@ -131,7 +132,6 @@ aside
   .inner-passive:before,
   .inner-passive:after
     content: ''
-    background: #333333
     width: 16px
     height: 36px
     position: absolute
@@ -139,9 +139,9 @@ aside
     left: 10px
     border-left: 0 none
     border-right: 0 none
-    background: #333333
     border-top: 2px $border-color solid
     border-bottom: 2px $border-color solid
+    z-index: 5
   a + div.passive:before
     +transform(rotate(90deg))
     border-color: #aaaaaa
@@ -151,26 +151,10 @@ aside
   .inner-passive:after
     +transform(rotate(135deg))
     border-color: #999999
-  .icon
-    position: absolute
-    z-index: 1
-    background-repeat: no-repeat
-    height: 38px
-    width: 38px
-    top: 0
-    left: 0
-    +transform(scale(0.95, 1.05))
-    &.passive
-      +transform(scale(1.05))
-      height: 38px
-      width: 38px
-      top: 0
-      left: -1px
   .active
     position: absolute
     top: 0
     left: 0
-    background: #333333
     border: 2px $border-color solid
     border-left-color: #999999
     border-right-color: #999999
@@ -205,3 +189,58 @@ button
   position: relative
   z-index: 10
   padding-right: 5px
+  
+.skillimg
+  height: 34px
+  width: 34px
+  position: absolute
+  top: 4px
+  left: 2px
+  z-index: 1
+  &.passive
+    top: 3px
+    left: 1px
+    +transform(scale(1.1))
+
+// skill sprites
+@import "sprites/destinies/draconic_incarnation/*.png"
+@import "sprites/destinies/exalted_angel/*.png"
+@import "sprites/destinies/fatesinger/*.png"
+@import "sprites/destinies/fury_of_the_wild/*.png"
+@import "sprites/destinies/grandmaster_of_flowers/*.png"
+@import "sprites/destinies/legendary_dreadnought/*.png"
+@import "sprites/destinies/magister/*.png"
+@import "sprites/destinies/shadowdancer/*.png"
+@import "sprites/destinies/unyielding_sentinel/*.png"
+@import "sprites/destinies/shiradi_champion/*.png"
+
+.legendary_dreadnought-strcon
+  @extend .fury_of_the_wild-strcon
+.legendary_dreadnought-strcon-taken
+  @extend .fury_of_the_wild-strcon-taken
+  
+.shiradi_champion-dexwis
+  @extend .grandmaster_of_flowers-dexwis
+.shiradi_champion-dexwis-taken
+  @extend .grandmaster_of_flowers-dexwis-taken
+  
+.unyielding_sentinel-purifyweapon
+  @extend .unyielding_sentinel-annointweapon
+.unyielding_sentinel-purifyweapon-taken
+  @extend .unyielding_sentinel-annointweapon-taken
+  
+.magister-chaint
+  @extend .draconic_incarnation-chaint
+.magister-chaint-taken
+  @extend .draconic_incarnation-chaint-taken
+  
++all-draconic_incarnation-sprites
++all-exalted_angel-sprites
++all-fatesinger-sprites
++all-fury_of_the_wild-sprites
++all-grandmaster_of_flowers-sprites
++all-legendary_dreadnought-sprites
++all-magister-sprites
++all-shadowdancer-sprites
++all-shiradi_champion-sprites
++all-unyielding_sentinel-sprites

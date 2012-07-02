@@ -77,14 +77,17 @@
           taken = e.find("span"),
           takenNum = parseInt(taken.text()),
           pSpent = $(".points").find(".spent"),
-          pAvail = $(".points").find(".avail");
+          pAvail = $(".points").find(".avail"),
+          img = e.find('.skillimg').attr('classname');
           
       // check and make sure this has something in it.
       if (el.currentTarget.childNodes.length < 2) {
         return false;
       }
           
-      if (selected == 0) {
+      if (parseInt(selected) === 1) {
+        e.find('.'+img+'-taken').removeClass(img+'-taken').addClass(img);
+      } else if (parseInt(selected) === 0) {
         return false;
       }
 
@@ -116,7 +119,8 @@
           taken = e.find("span"),
           takenNum = parseInt(taken.text()),
           pSpent = $(".points").find(".spent"),
-          pAvail = $(".points").find(".avail");
+          pAvail = $(".points").find(".avail"),
+          img = e.find('.skillimg').attr('classname');
           
       // check and make sure this has something in it.
       if (el.currentTarget.childNodes.length < 2) {
@@ -152,6 +156,7 @@
       pSpent.text(parseInt(pSpent.text()) + AP);
       pAvail.text(parseInt(pAvail.text()) - AP);
       $('.reset').removeAttr('disabled');
+      e.find('.'+img).removeClass(img).addClass(img+"-taken");
       
       // TODO: append the next tier
       // // rebuild the tooltip
