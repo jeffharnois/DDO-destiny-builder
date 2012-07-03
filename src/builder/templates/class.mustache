@@ -226,6 +226,14 @@
         {{/1e}}
       </div>
     </div>
+    <div class="gridrow autogrants">
+      {{#autogrants}}
+        <div class="griditem">
+          {{> autogrant-ability}}
+          <div class="{{dID}}-{{img}} skillimg {{#passive}}{{passive}}{{/passive}}" classname="{{dID}}-{{img}}"></div>
+        </div>
+      {{/autogrants}}
+    </div>
     <button class=reset disabled=disabled>Reset Tree</button>
   </div>
   <div class=points>

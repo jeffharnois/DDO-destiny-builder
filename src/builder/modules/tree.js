@@ -80,6 +80,11 @@
           pAvail = $(".points").find(".avail"),
           img = e.find('.skillimg').attr('classname');
           
+      // make sure this isnt an autogrant
+      if (e.parent('.gridrow').hasClass('autogrants') === true) {
+        return false;
+      }
+      
       // check and make sure this has something in it.
       if (el.currentTarget.childNodes.length < 2) {
         return false;
@@ -122,6 +127,12 @@
           pAvail = $(".points").find(".avail"),
           img = e.find('.skillimg').attr('classname');
           
+      // make sure this isnt an autogrant
+      if (e.parent('.gridrow').hasClass('autogrants') === true) {
+        console.log("autogrant clicked");
+        return false;
+      }
+      
       // check and make sure this has something in it.
       if (el.currentTarget.childNodes.length < 2) {
         return false;
@@ -186,7 +197,7 @@
       self.currentPath = path;
       self.currentModel = model;
       // append the hogan template to the ID
-      $(this.el).html(builder.fetchAndRender('embed',{partial: [this.templateName, 'class', 'ability', 'tooltip', 'footer', 'header'], collection: collection, model: model, options: {tree: "tree"}}));
+      $(this.el).html(builder.fetchAndRender('embed',{partial: [this.templateName, 'class', 'ability', 'tooltip', 'autogrant-ability', 'autogrant-tooltip', 'footer', 'header'], collection: collection, model: model, options: {tree: "tree"}}));
       
       $("aside").find("li").removeClass("active");
       $("aside").find("."+path).addClass("active");

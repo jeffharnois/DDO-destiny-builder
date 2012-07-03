@@ -160,6 +160,15 @@ aside
     border-right-color: #999999
     width: 33px
     height: 37px
+  &.autogrants
+    .griditem
+      margin-right: 11px
+      margin-bottom: 10px
+      +transform(scale(0.9))
+      &:last-child
+        margin-right: 0px
+        
+        
     
 .points
   margin-top: 10px
@@ -176,7 +185,7 @@ button
   +box-shadow(0 0 1px 0 #5b5243)
   color: #f9dac6
   text-transform: capitalize
-  margin: 50px 15px 0
+  margin: 0 15px 0
   float: right
   font-size: 14px
   &[disabled="disabled"]
@@ -191,7 +200,7 @@ button
   padding-right: 5px
   
 .skillimg
-  height: 34px
+  height: 33px
   width: 34px
   position: absolute
   top: 4px
