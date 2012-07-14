@@ -48,7 +48,9 @@
     currentLeft: 24,
     events: {
       "click .griditem": "clicked",
-      "click .reset": "reset"
+      "click .reset": "reset",
+      "mouseover .griditem": "tooltip",
+      "mouseout .griditem": "tooltipOut"
     },
     initialize: function() {
       // optional initialize function
@@ -106,7 +108,8 @@
       
       if (parseInt(pSpent.text()) === 0) {
         $('.reset').attr('disabled',"disabled");
-      } 
+      }
+      this.tooltip(el);
       
       return true;
     },
@@ -129,7 +132,6 @@
           
       // make sure this isnt an autogrant
       if (e.parent('.gridrow').hasClass('autogrants') === true) {
-        console.log("autogrant clicked");
         return false;
       }
       
@@ -168,26 +170,36 @@
       pAvail.text(parseInt(pAvail.text()) - AP);
       $('.reset').removeAttr('disabled');
       e.find('.'+img).removeClass(img).addClass(img+"-taken");
-      
-      // TODO: append the next tier
-      // // rebuild the tooltip
-      // var model = {};
-      // model.abil_name = this.currentModel[ID].abil_name;
-      // model.abil = {"1": this.currentModel[ID].abil[parseInt(taken.text()) + 1]};
-      // console.log('ranks ' + ranks);
-      // model.ranks = ranks;
-      // console.log("required " + required);
-      // model.required = required;
-      // model.selected = parseInt(taken.text());
-      // model.AP = AP;
-      // model.prereq = {"req": req, "tier": reqTier};
-      // console.log('click mmodel');
-      // console.log(model);
-      // 
-      // $(e).find('a').html(builder.fetchAndRender('tooltip',model));
-      // $('a[data-toggle="tooltip"]', this.el).tooltip({placement: 'right', delay: {show: 200}});
+      this.tooltip(el);
       
       return true;
+    },
+    tooltipOut: function() {
+        $('.tooltipWrapper').remove();
+    },
+    tooltip: function(el) {
+      var model = {},
+          e = $(el.currentTarget).find('a'),
+          AP = parseInt(e.attr("data-points")),
+          taken = parseInt(e.attr("user-selected")),
+          classes = $(el.currentTarget).attr('class'),
+          ids = classes.replace("griditem",""),
+          ID = ids.replace(" ",""),
+          required = parseInt(e.attr("data-ranks"));
+      $('.tooltipWrapper').remove();
+        if (!(isNaN(required))) {
+          $(el.currentTarget).append('<div class="tooltipWrapper"></div>');
+          if (this.currentModel[ID].abil[taken]) {
+            $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Current", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken], abil_name: this.currentModel[ID].abil_name}));
+          }
+          if (this.currentModel[ID].abil[taken+1]) {
+            $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Next", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken+1], abil_name: this.currentModel[ID].abil_name}));
+
+          }
+        } else if ($(el.currentTarget).parent().hasClass("autogrants") === true){
+          // is an autogrant
+          console.log(el);
+        }
     },
     render: function(options) {
       var self = this,
@@ -201,14 +213,15 @@
       
       $("aside").find("li").removeClass("active");
       $("aside").find("."+path).addClass("active");
-
-      $('a[data-toggle="tooltip"]', this.el).tooltip({placement: 'right', delay: {show: 200}});
       
       $('.griditem').bind('contextmenu', function(e){
           e.preventDefault();
           self.subtracted(e);
           return false;
       });
+      
+      $('a[data-toggle="tooltip"]', this.el).tooltip({placement: 'right', delay: {show: 200}});
+      // $('.autogrant').tooltip({delay: 200});
       
       _gaq.push(['_trackPageview', path]);
 
