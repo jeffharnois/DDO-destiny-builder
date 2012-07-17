@@ -120,7 +120,6 @@
           ranks = parseInt(e.find("a").attr("data-ranks")),
           required = parseInt(e.find("a").attr("data-required")),
           req = e.find("a").attr("data-req"),
-          reqTier = parseInt(e.find("a").attr("data-req-tier")),
           classes = e.attr('class'),
           ids = classes.replace("griditem",""),
           ID = ids.replace(" ",""),
@@ -128,7 +127,8 @@
           takenNum = parseInt(taken.text()),
           pSpent = $(".points").find(".spent"),
           pAvail = $(".points").find(".avail"),
-          img = e.find('.skillimg').attr('classname');
+          img = e.find('.skillimg').attr('classname'),
+          goodToGo = true;
           
       // make sure this isnt an autogrant
       if (e.parent('.gridrow').hasClass('autogrants') === true) {
@@ -155,22 +155,32 @@
         return false;
       }
       
-      // check if req exists and if tier exists and is a number
-      if (req !== undefined && (reqTier !== undefined || isNaN(reqTier) === false)) {
-        reqTaken = parseInt($(".grid").find("."+req).find("a").attr("user-selected"));
-        // check to see if they've taken enough of the prereq
-        if (reqTaken < reqTier) {
-          return false;
-        }
+      // check if req exists
+      if (req !== undefined && req !== '') {
+        // split at , and throw into an array
+        var reqs = [];
+        reqs = req.split(",");
+        // loop over the array to make sure this isn't a multiple pre-req
+        _.each(reqs, function(val, key) {
+          // check each pre-req to make sure it's fulfilled
+          reqTaken = parseInt($(".grid").find("."+val).find("a").attr("user-selected"));
+          if ((parseInt(selected) + 1) > reqTaken) {
+            // if not, set goodToGo to false because return false won't be caught correctly in the loop
+            goodToGo = false;
+            return false;
+          }
+        });
       }
       
-      taken.text(takenNum+1);
-      e.find('a').attr("user-selected",takenNum+1);
-      pSpent.text(parseInt(pSpent.text()) + AP);
-      pAvail.text(parseInt(pAvail.text()) - AP);
-      $('.reset').removeAttr('disabled');
-      e.find('.'+img).removeClass(img).addClass(img+"-taken");
-      this.tooltip(el);
+      if (goodToGo === true) {
+        taken.text(takenNum+1);
+        e.find('a').attr("user-selected",takenNum+1);
+        pSpent.text(parseInt(pSpent.text()) + AP);
+        pAvail.text(parseInt(pAvail.text()) - AP);
+        $('.reset').removeAttr('disabled');
+        e.find('.'+img).removeClass(img).addClass(img+"-taken");
+        this.tooltip(el);
+      }
       
       return true;
     },
@@ -196,9 +206,6 @@
             $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Next", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken+1], abil_name: this.currentModel[ID].abil_name}));
 
           }
-        } else if ($(el.currentTarget).parent().hasClass("autogrants") === true){
-          // is an autogrant
-          console.log(el);
         }
     },
     render: function(options) {
