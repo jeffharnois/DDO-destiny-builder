@@ -17,6 +17,7 @@
             "grandmaster_of_flowers",
             "legendary_dreadnought",
             "magister",
+            "primal_avatar",
             "shadowdancer",
             "shiradi_champion",
             "unyielding_sentinel"
@@ -216,7 +217,7 @@
       self.currentPath = path;
       self.currentModel = model;
       // append the hogan template to the ID
-      $(this.el).html(builder.fetchAndRender('embed',{partial: [this.templateName, 'class', 'ability', 'tooltip', 'autogrant-ability', 'autogrant-tooltip', 'footer', 'header'], collection: collection, model: model, options: {tree: "tree"}}));
+      $(this.el).html(builder.fetchAndRender('embed',{partial: [this.templateName, 'class', 'ability', 'tooltip', 'autogrant-ability', 'autogrant-tooltip', 'footer', 'header'/*, 'twist', 'twists'*/], collection: collection, model: model, options: {tree: "tree"}}));
       
       $("aside").find("li").removeClass("active");
       $("aside").find("."+path).addClass("active");

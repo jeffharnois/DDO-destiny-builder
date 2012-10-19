@@ -1,8 +1,8 @@
 .tree
   width: 799px
-  height: 665px
   position: relative
   margin: 0 auto 50px
+  min-height: 700px
   article
     hgroup
       width: 100%
@@ -26,8 +26,29 @@
 aside,
 article
   float: left
+
+aside .skills,
+aside .twist,
+aside.nav
+  width: 220px
+
+.tree
+  aside 
+    .skills
+      height: 400px
+      margin-top: 45px !important
+      overflow: auto
+
+aside .twist
+  height: 200px
+  margin-top: 0
   
-aside
+aside .twist,
+aside .skills
+  border: 1px #716664 solid
+  margin: 10px
+
+aside.nav
   width: 227px
   height: 616px
   margin: 20px 11px 0 16px
@@ -59,7 +80,8 @@ aside
         +background-image(linear-gradient(top, #43569b, #1d2643))
         +box-shadow(inset 0 0 6px #6b7dbb)
     .shiradi_champion,
-    .fury_of_the_wild
+    .fury_of_the_wild,
+    .primal_avatar
       +box-shadow(inset 0 0 28px rgba(40, 160, 43, 0.45))
       &.active
         +background-image(linear-gradient(top, #4c8246, #143511))
@@ -106,6 +128,8 @@ aside
   background: image-url("backgrounds/trees/shiradi_champion.png")
 .trees-unyielding_sentinel
   background: image-url("backgrounds/trees/unyielding_sentinel.png")
+.trees-primal_avatar
+  background: image-url("backgrounds/trees/primal_avatar.png")
   
 .gridrow
   .griditem
@@ -219,6 +243,7 @@ button
 @import "sprites/grandmaster_of_flowers/*.png"
 @import "sprites/legendary_dreadnought/*.png"
 @import "sprites/magister/*.png"
+@import "sprites/primal_avatar/*.png"
 @import "sprites/shadowdancer/*.png"
 @import "sprites/unyielding_sentinel/*.png"
 @import "sprites/shiradi_champion/*.png"
@@ -250,6 +275,9 @@ button
 +all-grandmaster_of_flowers-sprites
 +all-legendary_dreadnought-sprites
 +all-magister-sprites
++all-primal_avatar-sprites
 +all-shadowdancer-sprites
 +all-shiradi_champion-sprites
 +all-unyielding_sentinel-sprites
+
+
