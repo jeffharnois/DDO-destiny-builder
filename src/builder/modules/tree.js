@@ -7,38 +7,33 @@
     routes: {
       "d/:path":"loadTree"
     },
-    loadTree: function(path) {
-      var self = this,
-          models = [
-            "draconic_incarnation",
-            "exalted_angel",
-            "fatesinger",
-            "fury_of_the_wild",
-            "grandmaster_of_flowers",
-            "legendary_dreadnought",
-            "magister",
-            "primal_avatar",
-            "shadowdancer",
-            "shiradi_champion",
-            "unyielding_sentinel"
-          ], 
-          collection = [];
-      _.each(window.model, function(val,key) {
-        if ($.inArray(key, models) !== -1) {
-          collection.push($.parseJSON(val));
+    initialize: function() {
+      var self = this, coll;
+      _.each(window.model, function(val, key) {
+        v = $.parseJSON(val);
+        if (v.dID !== 'base_base') {
+          coll = new Tree.Collection(v);
+          self.collection[v.dID] = coll;
         }
       });
-      this.currentRequest = new Tree.Views.Test();
-      this.currentRequest.render({collection: collection, model: $.parseJSON(window.model[path]), path: path});
+    },
+    loadTree: function(path) {
+      var self = this;
+
+      console.log(self.collection);
+      this.currentRequest = new Tree.Views.Tree();
+      this.currentRequest.render({collection: self.collection, model: self.collection[path], path: path});
     }
   });
 
-  Tree.Collection = Backbone.Collection.extend({/* the collection of models */});
+  Tree.Collection = Backbone.Collection.extend({
+    
+  });
 
   Tree.Model = Backbone.Model.extend({/* this is the model data structure */});
 
   
-  Tree.Views.Test = Backbone.View.extend({
+  Tree.Views.Tree = Backbone.View.extend({
     el: "body",
 
     // the name of the template
@@ -186,38 +181,69 @@
       return true;
     },
     tooltipOut: function() {
-        $('.tooltipWrapper').remove();
+      $('.tooltipWrapper').remove();
     },
     tooltip: function(el) {
-      var model = {},
-          e = $(el.currentTarget).find('a'),
-          AP = parseInt(e.attr("data-points")),
-          taken = parseInt(e.attr("user-selected")),
-          classes = $(el.currentTarget).attr('class'),
-          ids = classes.replace("griditem",""),
-          ID = ids.replace(" ",""),
-          required = parseInt(e.attr("data-ranks"));
-      $('.tooltipWrapper').remove();
-        if (!(isNaN(required))) {
-          $(el.currentTarget).append('<div class="tooltipWrapper"></div>');
-          if (this.currentModel[ID].abil[taken]) {
-            $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Current", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken], abil_name: this.currentModel[ID].abil_name}));
-          }
-          if (this.currentModel[ID].abil[taken+1]) {
-            $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Next", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken+1], abil_name: this.currentModel[ID].abil_name}));
+      // var model = {},
+      //     e = $(el.currentTarget).find('a'),
+      //     AP = parseInt(e.attr("data-points")),
+      //     taken = parseInt(e.attr("user-selected")),
+      //     classes = $(el.currentTarget).attr('class'),
+      //     ids = classes.replace("griditem",""),
+      //     ID = ids.replace(" ",""),
+      //     required = parseInt(e.attr("data-ranks"));
+      // $('.tooltipWrapper').remove();
+      //   if (!(isNaN(required))) {
+      //     $(el.currentTarget).append('<div class="tooltipWrapper"></div>');
+      //     if (this.currentModel[ID].abil[taken]) {
+      //       $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Current", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken], abil_name: this.currentModel[ID].abil_name}));
+      //     }
+      //     if (this.currentModel[ID].abil[taken+1]) {
+      //       $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Next", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken+1], abil_name: this.currentModel[ID].abil_name}));
 
-          }
+      //     }
+      //   }
+      var self = this,
+          e = $(el.currentTarget).find('a'),
+          m = self.currentPath,
+          i = $(el.currentTarget).attr('class'),
+          collection = builder.app.tree.collection,
+          model,
+          skill, selected;
+
+      if (i) {
+        i = i.replace("griditem","").replace(" ","");
+        console.log(i);
+        console.log(collection);
+        skill = collection[self.currentPath].models[0].get(i);
+        console.log(skill);
+        $('.tooltipWrapper').remove();
+        $(el.currentTarget).append('<div class="tooltipWrapper"></div>');
+        // if (this.currentModel[ID].abil[taken]) {
+        //   $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Current", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken], abil_name: this.currentModel[ID].abil_name}));
+        // }
+        // if (this.currentModel[ID].abil[taken+1]) {
+        //   $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Next", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken+1], abil_name: this.currentModel[ID].abil_name}));
+        // }
+      }
+    },
+    drawImages: function() {
+      var self = this,
+          classname;
+      $(this.el).find('.griditem').each(function(i, e){
+        classname = $(e).find('.skillimg').attr('classname');
+        if (classname) {
+          $(e).find('.skillimg').addClass(self.currentPath + "-" + classname);
         }
+      });
     },
     render: function(options) {
       var self = this,
           collection = options.collection,
-          model = options.model,
           path = options.path;
       self.currentPath = path;
-      self.currentModel = model;
       // append the hogan template to the ID
-      $(this.el).html(builder.fetchAndRender('embed',{partial: [this.templateName, 'class', 'ability', 'tooltip', 'autogrant-ability', 'autogrant-tooltip', 'footer', 'header'/*, 'twist', 'twists'*/], collection: collection, model: model, options: {tree: "tree"}}));
+      $(this.el).html(builder.fetchAndRender('embed',{partial: [this.templateName, 'class', 'ability', 'tooltip', 'autogrant-ability', 'autogrant-tooltip', 'footer', 'header'/*, 'twist', 'twists'*/], collection: collection, model: collection[path], options: {tree: "tree"}}));
       
       $("aside").find("li").removeClass("active");
       $("aside").find("."+path).addClass("active");
@@ -227,9 +253,10 @@
           self.subtracted(e);
           return false;
       });
+
+      this.drawImages();
       
       $('a[data-toggle="tooltip"]', this.el).tooltip({placement: 'right', delay: {show: 200}});
-      // $('.autogrant').tooltip({delay: 200});
       
       _gaq.push(['_trackPageview', path]);
 
