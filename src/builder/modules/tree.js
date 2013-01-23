@@ -1,5 +1,38 @@
 (function(Tree) {
 
+  Tree.Mapping = {
+    "a": "1a",
+    "b": "1b",
+    "c": "1c",
+    "d": "1d",
+    "e": "1e",
+    "f": "2a",
+    "g": "2b",
+    "h": "2c",
+    "i": "2d",
+    "j": "2e",
+    "k": "3a",
+    "l": "3b",
+    "m": "3c",
+    "n": "3d",
+    "o": "3e",
+    "p": "4a",
+    "q": "4b",
+    "r": "4c",
+    "s": "4d",
+    "t": "4e",
+    "u": "5a",
+    "v": "5b",
+    "w": "5c",
+    "x": "5d",
+    "y": "5e",
+    "z": "6a",
+    "aa": "6b",
+    "bb": "6c",
+    "cc": "6d",
+    "dd": "6e"
+  };
+
   Tree.Router = Backbone.Router.extend({
     collection: {},
     currentRequest: null,
@@ -20,19 +53,18 @@
     loadTree: function(path) {
       var self = this;
 
-      console.log(self.collection);
       this.currentRequest = new Tree.Views.Tree();
       this.currentRequest.render({collection: self.collection, model: self.collection[path], path: path});
+      // console.log('collection path');
+      // console.log(self.collection[path]);
+      _gaq.push(['_trackPageview', path]);
     }
   });
 
-  Tree.Collection = Backbone.Collection.extend({
-    
-  });
+  Tree.Collection = Backbone.Collection.extend({ });
 
   Tree.Model = Backbone.Model.extend({/* this is the model data structure */});
 
-  
   Tree.Views.Tree = Backbone.View.extend({
     el: "body",
 
@@ -40,8 +72,6 @@
     templateName: 'tree',
     currentPath: '',
     currentModel: {},
-    currentSpent: 0,
-    currentLeft: 24,
     events: {
       "click .griditem": "clicked",
       "click .reset": "reset",
@@ -54,77 +84,113 @@
       this.delegateEvents();
     },
     reset: function(el) {
+      var self = this,
+          collection = builder.app.tree.collection,
+          model = collection[self.currentPath].models[0];
       // TODO: when changed to persist between trees, this will need to be another render
       if ($(el).attr("disabled") === true) {
         return false;
       }
-      window.location.reload();
+      // window.location.reload();
+
+      // console.log(model._originalAttributes);
+      // model.set(model._originalAttributes);
+      model.reset();
+
+      console.log(model);
+      this.render({collection: collection, path: self.currentPath});
+
       return true;
     },
     subtracted: function (el) {
+
       var e = $(el.currentTarget),
-          selected = e.find("a").attr("user-selected"),
-          AP = parseInt(e.find("a").attr("data-points")),
+          self = this,
+          m = self.currentPath,
+          i = $(el.currentTarget).attr('class'),
           ranks = parseInt(e.find("a").attr("data-ranks")),
-          required = parseInt(e.find("a").attr("data-required")),
-          req = e.find("a").attr("data-req"),
-          reqTier = parseInt(e.find("a").attr("data-req-tier")),
-          classes = e.attr('class'),
-          ids = classes.replace("griditem",""),
-          ID = ids.replace(" ",""),
-          taken = e.find("span"),
-          takenNum = parseInt(taken.text()),
           pSpent = $(".points").find(".spent"),
           pAvail = $(".points").find(".avail"),
-          img = e.find('.skillimg').attr('classname');
-          
+          collection = builder.app.tree.collection,
+          model = collection[self.currentPath].models[0], 
+          img = e.find('.skillimg').attr('classname'),
+          skill, selected, desc, req, spent, r,
+          reqs = [],
+          goodToGo = true;
+
+      // make sure we know what class we have
+      if (!i) {
+        return false;
+      } else {
+        i = i.replace("griditem","").replace(" ","");
+        skill = model.get(i);
+        spent = model.get("points_spent");
+      }
+
       // make sure this isnt an autogrant
       if (e.parent('.gridrow').hasClass('autogrants') === true) {
         return false;
       }
-      
+
       // check and make sure this has something in it.
       if (el.currentTarget.childNodes.length < 2) {
         return false;
       }
-          
-      if (parseInt(selected) === 1) {
-        e.find('.'+img+'-taken').removeClass(img+'-taken').addClass(img);
-      } else if (parseInt(selected) === 0) {
+
+      // prevent the removal if this would drop the user below the minimum points spent for a higher tier (or this tier)
+      if ((model.get('points_spent') - skill.AP) < skill.required) {
         return false;
       }
-
-      // TODO: check if anything has "this" as a prereq and prevent if so
-      // TODO: prevent the removal if this would drop the user below the minimum points spent for a higher tier (or this tier)
       
-      taken.text(takenNum-1);
-      e.find('a').attr("user-selected",takenNum-1);
-      pSpent.text(parseInt(pSpent.text()) - AP);
-      pAvail.text(parseInt(pAvail.text()) + AP);
-      
-      if (parseInt(pSpent.text()) === 0) {
-        $('.reset').attr('disabled',"disabled");
+      // if this model has required_by, lets check and make sure its fulfilled.
+      if (skill.required_by !== null) {
+        _.each(skill.required_by, function(elem) {
+          elem = elem.replace("griditem","").replace(" ","");
+          r = model.get(elem);
+          if (r !== null && r.selected >= skill.selected) {
+            goodToGo = false;
+            return false;
+          }
+        });
       }
-      this.tooltip(el);
-      
+
+      if (goodToGo === true) {
+        // subtract the current AP cost to the points spent
+        model.set({points_spent: spent - skill.AP});
+        // decriment the skill selected
+        skill.selected = skill.selected - 1;
+        // add the current AP cost from the points remaining
+        model.set({points_remaining: model.get('points_remaining') + skill.AP});
+        // re-render the page
+        self.render({collection: collection, path: self.currentPath});
+      }
+
       return true;
     },
     clicked: function(el) {
       var e = $(el.currentTarget),
-          selected = e.find("a").attr("user-selected"),
-          AP = parseInt(e.find("a").attr("data-points")),
+          self = this,
+          m = self.currentPath,
+          i = $(el.currentTarget).attr('class'),
           ranks = parseInt(e.find("a").attr("data-ranks")),
-          required = parseInt(e.find("a").attr("data-required")),
-          req = e.find("a").attr("data-req"),
-          classes = e.attr('class'),
-          ids = classes.replace("griditem",""),
-          ID = ids.replace(" ",""),
-          taken = e.find("span"),
-          takenNum = parseInt(taken.text()),
           pSpent = $(".points").find(".spent"),
           pAvail = $(".points").find(".avail"),
+          collection = builder.app.tree.collection,
+          model = collection[self.currentPath].models[0], 
           img = e.find('.skillimg').attr('classname'),
+          skill, selected, desc, req, spent,
+          reqs = [],
           goodToGo = true;
+
+      // make sure we know what class we have
+      if (!i) {
+        return false;
+      } else {
+        i = i.replace("griditem","").replace(" ","");
+        skill = model.get(i);
+        req = skill.prereq;
+        spent = model.get("points_spent");
+      }
           
       // make sure this isnt an autogrant
       if (e.parent('.gridrow').hasClass('autogrants') === true) {
@@ -137,24 +203,23 @@
       }
       
       // check if required points spent are less than or equal to points spent
-      if (required > parseInt(pSpent.text())) {
+      if (skill.required > model.get('points_spent')) {
         return false;
       }
       
       // check if there are enough points available
-      if (AP > parseInt(pAvail.text())) {
+      if (skill && skill.AP >= model.get('points_remaining')) {
         return false;
       }
       
       // check if the current amount of ranks are less than the total ranks
-      if (ranks == taken.text()) {
+      if (skill.selected == skill.ranks) {
         return false;
       }
       
       // check if req exists
-      if (req !== undefined && req !== '') {
+      if (req !== null) {
         // split at , and throw into an array
-        var reqs = [];
         reqs = req.split(",");
         // loop over the array to make sure this isn't a multiple pre-req
         _.each(reqs, function(val, key) {
@@ -169,13 +234,14 @@
       }
       
       if (goodToGo === true) {
-        taken.text(takenNum+1);
-        e.find('a').attr("user-selected",takenNum+1);
-        pSpent.text(parseInt(pSpent.text()) + AP);
-        pAvail.text(parseInt(pAvail.text()) - AP);
-        $('.reset').removeAttr('disabled');
-        e.find('.'+img).removeClass(img).addClass(img+"-taken");
-        this.tooltip(el);
+        // add the current AP cost to the points spent
+        model.set({points_spent: spent + skill.AP});
+        // increment the skill selected
+        skill.selected = skill.selected + 1;
+        // subtract the current AP cost from the points remaining
+        model.set({points_remaining: model.get('points_remaining') - skill.AP});
+        // re-render the page
+        self.render({collection: collection, path: self.currentPath});
       }
       
       return true;
@@ -184,47 +250,30 @@
       $('.tooltipWrapper').remove();
     },
     tooltip: function(el) {
-      // var model = {},
-      //     e = $(el.currentTarget).find('a'),
-      //     AP = parseInt(e.attr("data-points")),
-      //     taken = parseInt(e.attr("user-selected")),
-      //     classes = $(el.currentTarget).attr('class'),
-      //     ids = classes.replace("griditem",""),
-      //     ID = ids.replace(" ",""),
-      //     required = parseInt(e.attr("data-ranks"));
-      // $('.tooltipWrapper').remove();
-      //   if (!(isNaN(required))) {
-      //     $(el.currentTarget).append('<div class="tooltipWrapper"></div>');
-      //     if (this.currentModel[ID].abil[taken]) {
-      //       $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Current", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken], abil_name: this.currentModel[ID].abil_name}));
-      //     }
-      //     if (this.currentModel[ID].abil[taken+1]) {
-      //       $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Next", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken+1], abil_name: this.currentModel[ID].abil_name}));
-
-      //     }
-      //   }
       var self = this,
           e = $(el.currentTarget).find('a'),
           m = self.currentPath,
           i = $(el.currentTarget).attr('class'),
           collection = builder.app.tree.collection,
-          model,
-          skill, selected;
+          model, skill, selected, desc;
 
       if (i) {
         i = i.replace("griditem","").replace(" ","");
-        console.log(i);
-        console.log(collection);
         skill = collection[self.currentPath].models[0].get(i);
-        console.log(skill);
-        $('.tooltipWrapper').remove();
-        $(el.currentTarget).append('<div class="tooltipWrapper"></div>');
-        // if (this.currentModel[ID].abil[taken]) {
-        //   $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Current", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken], abil_name: this.currentModel[ID].abil_name}));
-        // }
-        // if (this.currentModel[ID].abil[taken+1]) {
-        //   $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Next", required: this.currentModel[ID].required, abil: this.currentModel[ID].abil[taken+1], abil_name: this.currentModel[ID].abil_name}));
-        // }
+        if (skill) {
+          selected = skill.selected;
+          desc = skill.abil;
+          $('.tooltipWrapper').remove();
+          $(el.currentTarget).append('<div class="tooltipWrapper"></div>');
+          if (skill !== null) {
+            if (desc[selected]) {
+              $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Current", required: skill.required, abil: desc[selected], abil_name: skill.abil_name}));
+            } 
+            if (desc[selected+1]) {
+              $(".tooltipWrapper").append(builder.fetchAndRender('tooltip', {taken: "Next", required: skill.required, abil: desc[selected+1], abil_name: skill.abil_name}));
+            }
+          }
+        }
       }
     },
     drawImages: function() {
@@ -249,16 +298,12 @@
       $("aside").find("."+path).addClass("active");
       
       $('.griditem').bind('contextmenu', function(e){
-          e.preventDefault();
-          self.subtracted(e);
-          return false;
+        e.preventDefault();
+        self.subtracted(e);
+        return false;
       });
-
-      this.drawImages();
       
       $('a[data-toggle="tooltip"]', this.el).tooltip({placement: 'right', delay: {show: 200}});
-      
-      _gaq.push(['_trackPageview', path]);
 
       return this;
     }
