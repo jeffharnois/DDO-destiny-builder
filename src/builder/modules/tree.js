@@ -55,15 +55,11 @@
 
       this.currentRequest = new Tree.Views.Tree();
       this.currentRequest.render({collection: self.collection, model: self.collection[path], path: path});
-      // console.log('collection path');
-      // console.log(self.collection[path]);
       _gaq.push(['_trackPageview', path]);
     }
   });
 
   Tree.Collection = Backbone.Collection.extend({ });
-
-  Tree.Model = Backbone.Model.extend({/* this is the model data structure */});
 
   Tree.Views.Tree = Backbone.View.extend({
     el: "body",
@@ -87,17 +83,20 @@
       var self = this,
           collection = builder.app.tree.collection,
           model = collection[self.currentPath].models[0];
-      // TODO: when changed to persist between trees, this will need to be another render
       if ($(el).attr("disabled") === true) {
         return false;
       }
-      // window.location.reload();
-
-      // console.log(model._originalAttributes);
-      // model.set(model._originalAttributes);
+      // use the reset function that backbone.reset.js adds
       model.reset();
 
-      console.log(model);
+      // because we are using nested models, we need to reset "selected" manually, the reset() won't get them all.
+      _.each(model.attributes, function(e) {
+        if (e !== null && e.selected !== 0) {
+          e.selected = 0;
+        }
+      });
+
+      // finally, re-render the collection
       this.render({collection: collection, path: self.currentPath});
 
       return true;
@@ -224,8 +223,8 @@
         // loop over the array to make sure this isn't a multiple pre-req
         _.each(reqs, function(val, key) {
           // check each pre-req to make sure it's fulfilled
-          reqTaken = parseInt($(".grid").find("."+val).find("a").attr("user-selected"));
-          if ((parseInt(selected) + 1) > reqTaken) {
+          reqTaken = model.get(val).selected;
+          if ((skill.selected + 1) > reqTaken) {
             // if not, set goodToGo to false because return false won't be caught correctly in the loop
             goodToGo = false;
             return false;
