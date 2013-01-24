@@ -38,7 +38,8 @@
     currentRequest: null,
     models: window.model,
     routes: {
-      "d/:path":"loadTree"
+      "d/:path": "loadTree",
+      "d/:path/s/:skills": "buildTree"
     },
     initialize: function() {
       var self = this, coll;
@@ -49,6 +50,48 @@
           self.collection[v.dID] = coll;
         }
       });
+    },
+    doReset: function(model) {
+      // use the reset function that backbone.reset.js adds
+      model.reset();
+
+      // because we are using nested models, we need to reset "selected" manually, the reset() won't get them all.
+      _.each(model.attributes, function(e) {
+        if (e !== null && e.selected !== 0) {
+          e.selected = 0;
+        }
+      });
+      return this;
+    },
+    buildTree: function(path, skills) {
+      var skill = [],
+          self = this,
+          model, n = 0, num, curr,
+          r = /\d+/;
+
+      skill = skills.split(',');
+
+      model = self.collection[path].models[0];
+      
+      this.doReset(model);
+
+      _.each(skill, function(v, k) {
+        num = v.match(r);
+        v = v.replace(/[0-9]/g, "");
+        curr = Tree.Mapping[v];
+        if (num !== null) {
+          n = n + (parseInt(num) * model.get(curr).AP);
+          model.get(curr).selected = num;
+        } else {
+          model.get(curr).selected = 1;
+          n = n + (1 * model.get(curr).AP);
+        }
+      });
+
+      model.set({"points_spent": (model.get('points_spent') + n)});
+      model.set({"points_remaining": (model.get('points_remaining') - n)});
+
+      this.loadTree(path);
     },
     loadTree: function(path) {
       var self = this;
@@ -71,6 +114,7 @@
     events: {
       "click .griditem": "clicked",
       "click .reset": "reset",
+      "click .save": "save",
       "mouseover .griditem": "tooltip",
       "mouseout .griditem": "tooltipOut"
     },
@@ -140,6 +184,10 @@
       if ((model.get('points_spent') - skill.AP) < skill.required) {
         return false;
       }
+
+      if (skill.selected < 1) {
+        return false;
+      }
       
       // if this model has required_by, lets check and make sure its fulfilled.
       if (skill.required_by !== null) {
@@ -207,7 +255,7 @@
       }
       
       // check if there are enough points available
-      if (skill && skill.AP >= model.get('points_remaining')) {
+      if (skill && skill.AP > model.get('points_remaining')) {
         return false;
       }
       
@@ -244,6 +292,36 @@
       }
       
       return true;
+    },
+    save: function() {
+      var self = this,
+          mapping = Tree.Mapping,
+          collection = builder.app.tree.collection,
+          model = collection[self.currentPath].models[0],
+          curr, num, url,
+          skill = [];
+
+      _.each(model.attributes, function(v, k) {
+        if (v !== null && v.selected && v.selected !== 0) {
+          curr = _.keyOf(mapping, k);
+          if (v.selected > 1) {
+            num = v.selected;
+            skill.push(curr + v.selected);
+          } else {
+            skill.push(curr);
+          }
+        }
+      });
+
+      url = skill;
+      builder.app.navigate('d/'+self.currentPath+'/s/'+url);
+
+      this.doConfirm();
+    },  
+    doConfirm: function() {
+      prompt("Copy this:", window.location); 
+
+      return false;
     },
     tooltipOut: function() {
       $('.tooltipWrapper').remove();

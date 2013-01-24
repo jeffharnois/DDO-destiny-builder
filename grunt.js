@@ -22,6 +22,7 @@ module.exports = function(grunt) {
       "public/assets/generated/js/libs.js": [
           "assets/js/libs/jquery/jquery-1.7.1.min.js",
           "assets/js/libs/underscore/underscore.js",
+          "assets/js/libs/underscore/keyOf.js",
           "assets/js/libs/backbone/backbone.js",
           "assets/js/libs/backbone/backbone.reset.js",
           "assets/js/libs/hogan.js/hogan.min.js",
