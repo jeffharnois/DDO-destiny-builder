@@ -4,3 +4,4 @@ node_modules/*
 .sass-cache
 *.log
 stats.json
+public/assets/img/backgrounds
