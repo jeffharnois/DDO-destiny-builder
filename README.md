@@ -31,6 +31,11 @@ install all the node modules
 
     cd yourRepo
     npm install
+    
+install grunt-cli and nodemon
+
+    npm install -g grunt-cli
+    npm install -g nodemon
 
 run grunt to compile js
 
@@ -49,8 +54,6 @@ view at localhost:8080
 
 Fresh Clone - Externals
 =======================
-
-  git submodule add https://github.com/jeffharnois/epic-Destiny-Obj.git externals
 
   git submodule update --init --recursive
 
