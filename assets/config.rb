@@ -3,25 +3,22 @@
 # Set this to the root of your project when deployed:
 http_path = "/assets/"
 # sass source
-sass_dir = "src"
+sass_dir = "assets/src"
 # home for http paths
-paths = "generated/"
+paths = "generated"
 # home for all generated content
-assets = "../public" + http_path + paths
+assets = "public" + http_path + paths
 # generated css
-css_dir = assets+"css"
+css_dir = "public/assets/generated/css"
 # originals
-images_dir = "img"
+images_dir = "assets/img"
 # web path
-http_images_path = http_path + images_dir
+http_images_path = "/" + images_dir
 # generated sprites
-generated_images_dir = assets + images_dir
+generated_images_dir = assets + "/img"
 generated_images_path = generated_images_dir
-http_generated_images_path = http_path + paths + images_dir
+http_generated_images_path = http_path + paths + "/img"
 
-# original libraries, plugins, etc.
-# will be built to assets or to specific repo
-javascripts_dir = "js"
 
 relative_assets = false
 # SASS syntax with 2 space indentation

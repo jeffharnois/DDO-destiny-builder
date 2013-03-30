@@ -30,20 +30,12 @@ clone this repo
 install all the node modules
 
     cd yourRepo
+    npm install -g nodemon grunt-cli
     npm install
 
-run grunt to compile js
+grunt to compile js and then run the server
 
-    grunt
-
-compile the assets
-
-    cd assets
-    compass compile
-
-run the server
-
-    ./start
+    grunt && nodemon server.js
     
 view at localhost:8080
 

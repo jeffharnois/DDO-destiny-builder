@@ -19,4 +19,6 @@ app.get('/', function(req, res){
   res.render("index.html");
 });
 
+console.log('server listening at port 8080');
+
 app.listen(8080);

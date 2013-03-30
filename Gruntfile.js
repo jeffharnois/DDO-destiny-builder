@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     },
 
     clean: {
-      folder: "public/dist/builder/"
+      folder: ["public/dist/builder/", "public/assets/generated", "public/assets/img"]
     },
     
     tpl: {
@@ -56,6 +56,23 @@ module.exports = function(grunt) {
       }
     },
 
+
+    compass: {
+      dist: {
+        options: {
+          config: 'assets/config.rb'
+        }
+      }
+    },
+
+    copy: {
+      files: {
+        expand: true,
+        src: ['assets/img/backgrounds/**'],
+        dest: 'public'
+      }
+    },
+
     watch: {
       files: ["src/**/*"],
       tasks: "lint:files concat"
@@ -65,9 +82,12 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-tpl');
 
-  grunt.registerTask('default', ['clean', 'tpl', 'concat', 'uglify']);
+  grunt.registerTask('default', ['clean', 'tpl', 'concat', 'uglify', 'compass', 'copy']);
+  grunt.registerTask('dev', ['clean', 'tpl', 'concat', 'uglify', 'copy']);
 
 };
