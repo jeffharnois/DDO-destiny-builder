@@ -48,7 +48,7 @@ compile the assets
 
 run the server
 
-    ./start
+    nodemon server
     
 view at localhost:8080
 
