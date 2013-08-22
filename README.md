@@ -33,10 +33,9 @@ install all the node modules
     npm install -g nodemon grunt-cli
     npm install
     
-install grunt-cli and nodemon
+grab the submodules
 
-    npm install -g grunt-cli
-    npm install -g nodemon
+    git submodule update --init --recursive
 
 grunt to compile js and then run the server
 
