@@ -5,3 +5,4 @@ node_modules/*
 *.log
 stats.json
 public/assets/img/backgrounds
+.DS_Store

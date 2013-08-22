@@ -2,13 +2,14 @@
   "name": "epic-destiny",
   "version": "0.0.1",
   "dependencies": {
-    "grunt": "~0.4.0",
+    "grunt": "~0.4.1",
     "grunt-contrib-clean": "0.4.0",
     "grunt-contrib-concat": "0.1.3",
     "grunt-contrib-uglify": "0.2.0",
     "grunt-contrib-compass": "0.1.3",
     "grunt-contrib-copy": "0.4.1",
-    "grunt-tpl": "git+ssh://git@github.com:reputation/grunt-tpl.git",
+    "grunt-contrib-watch": "0.5.2",
+    "grunt-tpl": "1.0.2",
     "express": "~2.5.9"
   },
   "private": true

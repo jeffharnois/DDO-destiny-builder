@@ -17,9 +17,33 @@ module.exports = function(grunt) {
     },
     
     tpl: {
-      // output : source
-      "public/dist/builder/debug/js/templates.js": ["src/builder/templates/**/*.mustache"],
-      "public/dist/builder/debug/js/model.js":["externals/destinies/*.js"]
+      templates: {
+        options: {
+          processName: function(filename) {
+            filename = filename.slice(filename.lastIndexOf('/') + 1, filename.length);
+            if (filename.indexOf('.') !== -1) {
+              filename = filename.slice(0, filename.lastIndexOf('.'));
+            }
+            return filename;
+          }
+        },
+        src: ["src/builder/templates/**/*.html"],
+        dest: "public/dist/builder/debug/js/templates.js"
+      },
+      models: {
+        options: {
+          processName: function(filename) {
+            filename = filename.slice(filename.lastIndexOf('/') + 1, filename.length);
+            if (filename.indexOf('.') !== -1) {
+              filename = filename.slice(0, filename.lastIndexOf('.'));
+            }
+            return filename;
+          },
+          namespace: 'model'
+        },
+        dest: "public/dist/builder/debug/js/model.js",
+        src: ["externals/destinies/*.js"]
+      }
     },
 
     concat: {
@@ -74,8 +98,11 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      files: ["src/**/*"],
-      tasks: "lint:files concat"
+      options: {
+        spawn: true
+      },
+      files: ['Gruntfile.js'],
+      tasks: ['clean'],
     }
 
   });
@@ -85,9 +112,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-tpl');
 
   grunt.registerTask('default', ['clean', 'tpl', 'concat', 'uglify', 'compass', 'copy']);
   grunt.registerTask('dev', ['clean', 'tpl', 'concat', 'uglify', 'copy']);
+  grunt.registerTask('watch', ['watch']);
+
+  grunt.event.on('watch', function(action, filepath) {
+    grunt.config(['jshint', 'all'], filepath);
+  });
 
 };
