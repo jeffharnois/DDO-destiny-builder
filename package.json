@@ -10,7 +10,10 @@
     "grunt-contrib-copy": "0.4.1",
     "grunt-contrib-watch": "0.5.2",
     "grunt-tpl": "1.0.2",
-    "express": "~2.5.9"
+    "express": "~2.5.9",
+    "coffee-script": "~1.7.1",
+    "dotenv": "~0.2.5",
+    "matchdep": "~0.3.0"
   },
   "private": true
 }
