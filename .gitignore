@@ -1,8 +1,12 @@
-public/assets/generated/*
-public/dist/*
 node_modules/*
 .sass-cache
 *.log
 stats.json
-public/assets/img/backgrounds
 .DS_Store
+.DS_Store?
+.env
+
+public/assets/generated/*
+public/dist/*
+server.js
+public/assets/img/backgrounds
