@@ -1,10 +1,13 @@
 express = require('express')
-app = express.createServer()
+app = express()
 
 app.configure ->
   app.set 'view options', layout: false
-  app.register(
-    '.html'
+
+  console.log "app",app
+
+  app.engine(
+    '.html', ->
     {
       compile: (str, options) ->
         (locals) ->

@@ -5,6 +5,8 @@ stats.json
 .DS_Store
 .DS_Store?
 .env
+*.map
+lib
 
 public/assets/generated/*
 public/dist/*
