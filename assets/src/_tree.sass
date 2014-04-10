@@ -33,7 +33,7 @@ aside.nav
   width: 220px
 
 .tree
-  aside 
+  aside
     .skills
       height: 400px
       margin-top: 45px !important
@@ -42,7 +42,7 @@ aside.nav
 aside .twist
   height: 200px
   margin-top: 0
-  
+
 aside .twist,
 aside .skills
   border: 1px #716664 solid
@@ -60,7 +60,8 @@ aside.nav
       color: $gold-color
       text-decoration: none
     .exalted_angel,
-    .unyielding_sentinel
+    .unyielding_sentinel,
+    .divine_crusader
       +box-shadow(inset 0 0 28px rgba(255, 234, 0, 0.35))
       &.active
         +background-image(linear-gradient(top, #876e34, #3f3318))
@@ -107,7 +108,7 @@ aside.nav
   padding-top: 10px
   height: 513px
   max-width: 310px
-  
+
 .trees-draconic_incarnation
   background: image-url("backgrounds/trees/draconic_incarnation.png")
 .trees-exalted_angel
@@ -130,7 +131,7 @@ aside.nav
   background: image-url("backgrounds/trees/unyielding_sentinel.png")
 .trees-primal_avatar
   background: image-url("backgrounds/trees/primal_avatar.png")
-  
+
 .gridrow
   .griditem
     a
@@ -152,7 +153,7 @@ aside.nav
     &:last-child
       margin-right: 10px
   a + div.passive:before,
-  a + div.passive:after,  
+  a + div.passive:after,
   .inner-passive:before,
   .inner-passive:after
     content: ''
@@ -191,9 +192,9 @@ aside.nav
       +transform(scale(0.9))
       &:last-child
         margin-right: 0px
-        
-        
-    
+
+
+
 .points
   margin-top: 10px
   p
@@ -225,7 +226,7 @@ button
   position: relative
   z-index: 10
   padding-right: 5px
-  
+
 .skillimg
   height: 33px
   width: 34px
@@ -256,22 +257,22 @@ button
   @extend .fury_of_the_wild-strcon
 .legendary_dreadnought-strcon-taken
   @extend .fury_of_the_wild-strcon-taken
-  
+
 .shiradi_champion-dexwis
   @extend .grandmaster_of_flowers-dexwis
 .shiradi_champion-dexwis-taken
   @extend .grandmaster_of_flowers-dexwis-taken
-  
+
 .unyielding_sentinel-purifyweapon
   @extend .unyielding_sentinel-annointweapon
 .unyielding_sentinel-purifyweapon-taken
   @extend .unyielding_sentinel-annointweapon-taken
-  
+
 .magister-chaint
   @extend .draconic_incarnation-chaint
 .magister-chaint-taken
   @extend .draconic_incarnation-chaint-taken
-  
+
 +all-divine_crusader-sprites
 +all-draconic_incarnation-sprites
 +all-exalted_angel-sprites
@@ -284,5 +285,3 @@ button
 +all-shadowdancer-sprites
 +all-shiradi_champion-sprites
 +all-unyielding_sentinel-sprites
-
-
